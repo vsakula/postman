@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "00835a92-49da-438e-8984-5c4a02acc55e",
+		"name": "Postman_Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PZS",
+			"item": [
+				{
+					"name": "Kiosk Login Email",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "889e49c4-242e-46ac-9b49-ff7a24dda141",
+								"exec": [
+									"console.log (\"+++++++++++++++++++++++++++++\")",
+									"console.log (\"Scenario: \" + pm.iterationData.get('Scenario'));",
+									"console.log (\"+++++++++++++++++++++++++++++\")"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c3935560-9059-4be3-98cb-27a4d0ade5e8",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"var jsonData = pm.response.json()",
+									"var actualResponse = jsonData.IsSuccess;",
+									"var expectedResponse = pm.iterationData.get('ExpectedResponse');",
+									"console.log(\"Actual Response: \" + actualResponse + \"| Expected Response: \" + expectedResponse);",
+									"",
+									"pm.test(\"IsSuccess Validation\", function () {",
+									"    pm.expect(actualResponse.string).to.eql(expectedResponse.string);",
+									"})",
+									"",
+									"",
+									"/*",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    pm.expect(jsonData.IsSuccess).to.eql(expectedResponse);",
+									"})",
+									"",
+									"",
+									"",
+									"pm.test(\"Validate IsSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.IsSuccess).to.eql(data.ExpectedResponse); ",
+									"    console.log(\"ExpectedResponse\" + data.ExpectedResponse);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate OfferCode\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.RecommendedTitles.OfferCode).to.eql('RC');",
+									"    pm.expect(jsonData.IsEnrolledInLoyalty).to.eql(true);",
+									"    pm.expect(jsonData.EarlyIdOptInStatus).to.eql('Enrolled');",
+									"    pm.expect(jsonData.TextClubOptInStatus).to.eql('Enrolled');",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate OfferCode, Is Enrolled\", function () {",
+									"    ",
+									"    pm.expect(pm.response.json())",
+									"        .to.nested.include({",
+									"            'RecommendedTitles.OfferCode': JSON.stringify(pm.iterationData.get('RC'))",
+									"        });",
+									"});",
+									"*/",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json, text/json"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Email\": \"{{LoginEmailAddress}}\",\r\n  \"Password\": \"{{Password}}\",\r\n  \"Username\": \"v-Sakula\",\r\n  \"System\": \"Postman-{{PersonalizationSvc}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{PersonalizationSvc}}/Personalization/v1/profiles/loginemail?",
+							"protocol": "http",
+							"host": [
+								"{{PersonalizationSvc}}"
+							],
+							"path": [
+								"Personalization",
+								"v1",
+								"profiles",
+								"loginemail"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RunSql",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "afd1a6a8-099c-4558-b7fd-af51b1e99f26",
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"console.log (pm.response.json());",
+									"var statusCode = pm.response.status;",
+									"",
+									"",
+									"if (statusCode == 'OK')",
+									"{",
+									"    pm.test(\"Body is correct\", function () {",
+									"        //pm.response.to.have.body(\"CustomerProfileNumber\");",
+									"        pm.expect(pm.response.text()).to.include('CustomerProfileNumber');",
+									"    });",
+									"    console.log(\"Assertion Passed\");",
+									"}",
+									"else",
+									"{",
+									"    console.log (statusCode);",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"dbServer\": \"qadb107\",\r\n \"queryString\": \"select CustomerProfileNumber, LoginEmailAddress from CustomerProfileSvc.dbo.CustomerProfile Where LoginEmailAddress = '{{LoginEmailAddress}}'\"\r\n }"
+						},
+						"url": {
+							"raw": "http://qa-apidatasvc01/runsql/api/RunSql",
+							"protocol": "http",
+							"host": [
+								"qa-apidatasvc01"
+							],
+							"path": [
+								"runsql",
+								"api",
+								"RunSql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "KioskSvc",
+			"item": [
+				{
+					"name": "KioskLogin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fcbbf6ba-ee6a-49dd-bb07-c77fdad66dc6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "payload={\n\t\"MessageId\": \"{{$guid}}\",\n\t\"KioskId\": {{KioskID}},\n\t\"EngineVersion\": \"1.15.0.6\",\n\t\"BundleVersion\": \"2.2.2.82\",\n\t\"EmailAddress\": \"{{LoginEmailAddress}}\",\n\t\"Password\": \"{{Password}}\",\n\t\"IsOffline\": false,\n\t\"MessageType\": \"KioskLogin\"\n}"
+						},
+						"url": {
+							"raw": "http://qarbapp01.rb.local/KioskServices2.0.0/messageservice.aspx",
+							"protocol": "http",
+							"host": [
+								"qarbapp01",
+								"rb",
+								"local"
+							],
+							"path": [
+								"KioskServices2.0.0",
+								"messageservice.aspx"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

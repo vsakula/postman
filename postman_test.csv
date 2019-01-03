@@ -1,0 +1,3 @@
+Scenario,LoginEmailAddress,Password,KioskID,ExpectedResponse
+Perform a Successful login using LoginEmail and Password,sai.redbox@yahoo.com,redbox123,1505,true
+Valid Login and Invalid Password,rental.automation@gmail.com,redbox123,1505,false

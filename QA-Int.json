@@ -1,0 +1,28 @@
+{
+	"id": "a4a86946-487e-4d1f-bc6d-a210f98efcc8",
+	"name": "QA-Int",
+	"values": [
+		{
+			"key": "MicroServicesServer",
+			"value": "qa-apidatasvc01\n",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "CorporateSvcAppServer",
+			"value": "qamerch04.rb.local",
+			"description": "",
+			"enabled": true
+		},
+		{
+			"key": "PersonalizationSvc",
+			"value": "qapznsvc01.rb.local",
+			"type": "text",
+			"description": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2018-11-15T16:35:44.860Z",
+	"_postman_exported_using": "Postman/6.5.2"
+}
